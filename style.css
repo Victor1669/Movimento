@@ -1,0 +1,15 @@
+body {
+    margin: 0px;
+}
+
+#minha_box {
+    background-color: rgb(255, 0, 0);
+    width: 200px;
+    height: 200px;
+    font-size: 4rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
