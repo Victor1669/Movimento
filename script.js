@@ -1,31 +1,45 @@
 const box = document.getElementById("minha_box");
-const speed = 5;
+const speed = 2;
 let x = 0;
 let y = 0;
+let cond = true;
 
-document.addEventListener("keydown", event => {
+const keys = {};
 
-    if(event.key.startsWith('Arrow')) {
-
-        switch(event.key){
-            case 'ArrowUp':
-                y -= speed;
-                break;
-            case 'ArrowDown':
-                y += speed;
-                break;
-            case 'ArrowLeft':
-                x -= speed;
-                break;
-            case 'ArrowRight':
-                x += speed;
-                break;
-        }
+function mover(){
+    setInterval (() => {
+        if (keys['ArrowUp']) {
+            y -= speed;
+        };
+        if (keys['ArrowDown']) {
+            y += speed;
+        };
+        if (keys['ArrowLeft']) {
+            x -= speed;
+        };
+        if (keys['ArrowRight']) {
+            x += speed;
+        };
 
         box.style.top = `${y}px`;
         box.style.left = `${x}px`;
-    }
+    }, (0.01));
+}
+if (cond == true) {
+    mover();
+};
 
-})
+// Detecta quando uma tecla é pressionada
+document.addEventListener("keydown", event => {
+    keys[event.key] = true;
+    updatePosition();
+});
 
-document.addEventListener("keyup", event => {})
+// Detecta quando uma tecla é liberada
+document.addEventListener("keyup", event => {
+    keys[event.key] = false;
+});
+
+
+
+console.log();
