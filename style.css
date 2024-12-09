@@ -14,34 +14,82 @@ body {
 
 .coracao img {
     height: 66px;
-    width: 66px;  
+    width: 66px;
 }
+
+:root {
+    --altura: 40%;
+    --largura: 80%;
+}
+
+
 
 .tela {
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 10%;
-    width: 80%;
-    height: 40%;
+    top: -5%;
+    width: var(--largura);
+    height: var(--altura);
     border: 5px, solid rgb(255, 255, 255);
     background-color: rgb(0, 0, 0);
-    transform: translate(0px, 250px);
+    transform: translate(0px, 400px);
     z-index: 1;
 }
 
-.botao {
-    display: flex;
-}
-
-@media (max-width: 700px) {
+@media (max-width: 768px) {
     .tela {
         width: 80%;
-        top: -20%;
+        top: -45%;
+        transform: translate(0px, 400px);
     }
-    .coracao img{
-        width: 30px;
-        height: 30px;
+
+    .botao {
+        left: 5%;
+        top: 70%;
+        opacity: 0.5;
+        grid-template-columns: repeat(3, 1fr);
+        position: absolute;
+        width: 95px;
+        height: 95px;
+        z-index: 3;
     }
+
+    .btn {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .coracao img {
+        height: 44px;
+        width: 44px;
+    }
+}
+
+.pausa.ativo {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 92%;
+    top: 5%;
+    font-size: 1.5rem;
+}
+
+.pausa2.ativo {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 47.5%;
+    top: 42.5%;
+    font-size: 4rem;
+    z-index: 3;
+}
+
+.ativo {
+    display: block;
+}
+
+.sumido {
+    display: none;
 }
