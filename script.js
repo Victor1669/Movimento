@@ -10,13 +10,14 @@ let y = 0;
 let FPS = 1/30;
 let voo = false;
 
+
 function calcularLimites() {
     const telaRect = tela.getBoundingClientRect();
     return {
         minX: -telaRect.width / 2 + boxSize / 2 - 11.5,
         maxX: telaRect.width / 2 - boxSize / 2 + 11.5,
         minY: -telaRect.height / 2 + boxSize / 2 - 9.5,
-        maxY: telaRect.height / 2 - boxSize / 2 + 13.5,
+        maxY: telaRect.height / 2 - boxSize / 2 + 15.5,
     };
 }
 
@@ -32,18 +33,41 @@ handleMediaQueryChange(mediaQuery);
 mediaQuery.addEventListener("change", handleMediaQueryChange);
 
 function gravidade() {
-    setInterval(() => {
+    setInterval((timer, minY, pular) => {
+        pular = true
+        const telaRect = tela.getBoundingClientRect();
+        timer = 0;
+        minY = -telaRect.height / 2 + boxSize / 2 - 9.5;
+
         box.style.top = `${y}px`;
         box.style.left = `${x}px`;
 
-        if (x > limites.maxX - 2) x = limites.maxX - 2;
-        if (x < limites.minX + 2) x = limites.minX + 2;
-        if (y > limites.maxY) y = limites.maxY;
-        if (y < limites.minY) y = limites.minY;
-        if (y <= 63.5) y += 2;
+        if (x > limites.maxX - 7) x = limites.maxX - 7;
+        if (x < limites.minX + 8) x = limites.minX + 8;
+        if (y > limites.maxY - 5) y = limites.maxY - 5;
+        if (y < limites.minY + 7) y = limites.minY + 7;
+        if (y <= 65.5) y += 0.85;
 
         if (keys["ArrowLeft"]) x -= speed;
         if (keys["ArrowRight"]) x += speed;
+
+        function pulo() {
+            if (keys["ArrowUp"] && (y == 66 || y == 67)) {
+                while (timer <= 100) {
+                    y -= 0.85;
+                    timer += 1;
+                };
+            } 
+        }
+        if (pular == true) {
+            pulo();
+        }
+        if (y < 66) {
+            pular = false;
+        }
+        if (y == 66.30000000000005) {
+            y = 66;
+        }
 
     }, FPS);
 };
@@ -84,6 +108,7 @@ despausa.forEach((button) => {
 
         atual.classList.remove("ativo");
         atual.classList.add("sumido");
+        pular = false;
         speed = 0;
         FPS = 0;
         proximo.classList.remove("sumido");
@@ -92,6 +117,8 @@ despausa.forEach((button) => {
         if (atual.classList.contains("pausa2")) {
             FPS = 1/30;
             speed = 2;
+            pular = true;
         }
+        console.log(pular);
     });
 });
