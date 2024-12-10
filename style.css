@@ -22,19 +22,14 @@ body {
     --largura: 80%;
 }
 
-
-
 .tela {
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: -5%;
-    width: var(--largura);
     height: var(--altura);
     border: 5px, solid rgb(255, 255, 255);
     background-color: rgb(0, 0, 0);
-    transform: translate(0px, 400px);
     z-index: 1;
 }
 
@@ -62,8 +57,8 @@ body {
     }
 
     .coracao img {
-        height: 44px;
-        width: 44px;
+        height: 33px;
+        width: 33px;
     }
 }
 
@@ -77,6 +72,8 @@ body {
 }
 
 .pausa2.ativo {
+    padding: 0px;
+    align-items: center;
     position: absolute;
     width: 80px;
     height: 80px;
