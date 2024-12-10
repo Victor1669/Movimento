@@ -7,26 +7,48 @@ const boxSize = 66;
 let speed = 2;
 let x = 0;
 let y = 0;
-let voo = true;
+let FPS = 1/30;
+let voo = false;
 
-// Função para calcular os limites da tela
 function calcularLimites() {
     const telaRect = tela.getBoundingClientRect();
     return {
-        minX: -telaRect.width / 2 + boxSize / 2 + 7,
-        maxX: telaRect.width / 2 - boxSize / 2 - 7,
-        minY: -telaRect.height / 2 + boxSize / 2 + 7,
-        maxY: telaRect.height / 2 - boxSize / 2 - 3,
+        minX: -telaRect.width / 2 + boxSize / 2 - 11.5,
+        maxX: telaRect.width / 2 - boxSize / 2 + 11.5,
+        minY: -telaRect.height / 2 + boxSize / 2 - 9.5,
+        maxY: telaRect.height / 2 - boxSize / 2 + 13.5,
     };
 }
 
-// Atualiza os limites sempre que necessário
-let limites = calcularLimites();
-window.addEventListener("resize", () => {
+function handleMediaQueryChange(e) {
+    if (e.matches) {
+        botao.style.display = "grid";
+    } else {
+        botao.style.display = "none";
+    }
     limites = calcularLimites();
-});
+}
+handleMediaQueryChange(mediaQuery);
+mediaQuery.addEventListener("change", handleMediaQueryChange);
 
-// Função para mover o coração
+function gravidade() {
+    setInterval(() => {
+        box.style.top = `${y}px`;
+        box.style.left = `${x}px`;
+
+        if (x > limites.maxX - 2) x = limites.maxX - 2;
+        if (x < limites.minX + 2) x = limites.minX + 2;
+        if (y > limites.maxY) y = limites.maxY;
+        if (y < limites.minY) y = limites.minY;
+        if (y <= 63.5) y += 2;
+
+        if (keys["ArrowLeft"]) x -= speed;
+        if (keys["ArrowRight"]) x += speed;
+
+    }, FPS);
+};
+if (voo == false) gravidade();
+
 function mover() {
     setInterval(() => {
         if (keys["ArrowUp"]) y -= speed;
@@ -42,33 +64,18 @@ function mover() {
 
         box.style.top = `${y}px`;
         box.style.left = `${x}px`;
-    }, 1 / 30); 
+    }, FPS); 
 }
-
 if (voo) mover();
 
-// Detecta quando uma tecla é pressionada
 document.addEventListener("keydown", (event) => {
     keys[event.key] = true;
 });
 
-// Detecta quando uma tecla é liberada
 document.addEventListener("keyup", (event) => {
     keys[event.key] = false;
 });
 
-function handleMediaQueryChange(e) {
-    if (e.matches) {
-        botao.style.display = "grid";
-    } else {
-        botao.style.display = "none";
-    }
-    limites = calcularLimites();
-}
-handleMediaQueryChange(mediaQuery);
-mediaQuery.addEventListener("change", handleMediaQueryChange);
-
-// Gerencia pausa e retomada
 const despausa = document.querySelectorAll(".pausas");
 despausa.forEach((button) => {
     button.addEventListener("click", function () {
@@ -78,10 +85,12 @@ despausa.forEach((button) => {
         atual.classList.remove("ativo");
         atual.classList.add("sumido");
         speed = 0;
+        FPS = 0;
         proximo.classList.remove("sumido");
         proximo.classList.add("ativo");
 
         if (atual.classList.contains("pausa2")) {
+            FPS = 1/30;
             speed = 2;
         }
     });
